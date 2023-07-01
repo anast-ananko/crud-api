@@ -1,15 +1,17 @@
 import http from 'http';
 import { config } from 'dotenv';
 
+import Database from './db';
+import { router } from './router';
+
 config();
 
+export const users = new Database();
+
 const port = process.env.PORT || 5000;
-console.log(process.env.PORT);
 
 const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello, World!');
+  router(req, res);
 });
 
 server.listen(port, () => {
