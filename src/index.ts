@@ -10,7 +10,7 @@ export const users = new Database();
 
 const port = process.env.PORT || 5000;
 
-const server = http.createServer((req, res) => {
+export const server = http.createServer((req, res) => {
   router(req, res);
 });
 
