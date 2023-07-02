@@ -6,6 +6,7 @@
   "scripts": {
     "start:dev": "cross-env NODE_ENV=development nodemon",
     "start:prod": "cross-env NODE_ENV=production webpack && node ./dist/bundle.js",
+    "start:dev:multi": "cross-env NODE_ENV=development MODE=cluster nodemon",
     "test": "jest --silent --detectOpenHandles"
   },
   "author": "",
