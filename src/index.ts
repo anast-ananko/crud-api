@@ -3,7 +3,6 @@ import { config } from 'dotenv';
 import cluster, { Worker } from 'cluster';
 import os from 'os';
 
-import { dbServer } from './serverDB';
 import { router } from './router';
 import Database from './db';
 
@@ -13,7 +12,6 @@ let server: Server;
 export const users = new Database();
 
 const port = process.env.PORT || 5000;
-//const dbPort = 4000;
 
 const numCPUs = os.cpus().length;
 
@@ -21,8 +19,6 @@ const workers: Worker[] = [];
 
 if (process.env.MODE === 'cluster') {
   if (cluster.isPrimary) {
-    //dbServer.listen(dbPort);
-
     for (let i = 0; i < numCPUs - 1; i++) {
       const worker = cluster.fork();
       workers.push(worker);
@@ -100,8 +96,6 @@ if (process.env.MODE === 'cluster') {
     });
   }
 } else {
-  //dbServer.listen(dbPort);
-
   const server = http.createServer((req, res) => {
     router(req, res);
   });
