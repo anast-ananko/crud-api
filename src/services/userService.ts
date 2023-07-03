@@ -40,7 +40,12 @@ const createUser = async (req: IncomingMessage, res: ServerResponse): Promise<vo
       const { username, age, hobbies } = requestData;
 
       if (username && age && hobbies) {
-        if (Array.isArray(hobbies) && hobbies.every((item) => typeof item === 'string')) {
+        if (
+          Array.isArray(hobbies) &&
+          hobbies.every((item) => typeof item === 'string') &&
+          typeof age === 'number' &&
+          typeof username === 'string'
+        ) {
           const newUser = {
             id: uuidv4(),
             username,
@@ -53,7 +58,11 @@ const createUser = async (req: IncomingMessage, res: ServerResponse): Promise<vo
           res.statusCode = 201;
           res.end(JSON.stringify(user));
         } else {
-          sendResponse(res, 400, 'Hobbies must be an array of strings');
+          sendResponse(
+            res,
+            400,
+            'Username must be a string / Age must be a number / Hobbies must be an array of strings'
+          );
         }
       } else {
         sendResponse(res, 400, 'Body does not contain required fields');
@@ -79,7 +88,12 @@ const updateUser = async (req: IncomingMessage, res: ServerResponse, id: string)
         const requestData = await JSON.parse(body);
         const { username, age, hobbies } = requestData;
 
-        if (Array.isArray(hobbies) && hobbies.every((item) => typeof item === 'string')) {
+        if (
+          Array.isArray(hobbies) &&
+          hobbies.every((item) => typeof item === 'string') &&
+          typeof age === 'number' &&
+          typeof username === 'string'
+        ) {
           const user = users.updateUser(id, requestData);
 
           if (!user) {
@@ -94,7 +108,11 @@ const updateUser = async (req: IncomingMessage, res: ServerResponse, id: string)
             res.end(JSON.stringify(user));
           }
         } else {
-          sendResponse(res, 400, 'Hobbies must be an array of strings');
+          sendResponse(
+            res,
+            400,
+            'Username must be a string / Age must be a number / Hobbies must be an array of strings'
+          );
         }
       }
     } catch (error) {
